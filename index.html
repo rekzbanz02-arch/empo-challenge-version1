@@ -1,0 +1,1547 @@
+html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Versipn 1, PNP Operational Scenarios Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-attachment: fixed;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #1a2a6c;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+        
+        .subtitle {
+            color: #555;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .scenario-list {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .scenario-item {
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .scenario-item:last-child {
+            border-bottom: none;
+        }
+        
+        .scenario-header {
+            padding: 15px 20px;
+            background: #1a2a6c;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .scenario-header:hover {
+            background: #0d1a4d;
+        }
+        
+        .scenario-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .scenario-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .scenario-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+            background: #f9f9f9;
+        }
+        
+        .scenario-content.active {
+            padding: 20px;
+            max-height: 5000px;
+        }
+        
+        .scenario-content h3 {
+            color: #1a2a6c;
+            margin: 15px 0 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        
+        .scenario-content h3:first-child {
+            margin-top: 0;
+        }
+        
+        .scenario-content p {
+            margin-bottom: 10px;
+        }
+        
+        .scenario-content ul, .scenario-content ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .scenario-content li {
+            margin-bottom: 5px;
+        }
+        
+        .radio-comm {
+            background: #e8f4f8;
+            border-left: 4px solid #1a2a6c;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .pop-reminders {
+            background: #fff8e1;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .pop-reminders h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .scenario-header {
+                padding: 12px 15px;
+            }
+            
+            .scenario-title {
+                font-size: 1.1rem;
+            }
+            
+            .scenario-content.active {
+                padding: 15px;
+            }
+        }
+       
+       /* Passcode Modal Styles */
+.passcode-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.passcode-content {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.passcode-content h2 {
+    color: #1a2a6c;
+    margin-bottom: 15px;
+}
+
+.passcode-input {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    letter-spacing: 3px;
+}
+
+.passcode-input:focus {
+    border-color: #1a2a6c;
+    outline: none;
+}
+
+.passcode-btn {
+    background: #1a2a6c;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px;
+}
+
+.passcode-btn:hover {
+    background: #0d1a4d;
+}
+
+.passcode-error {
+    color: #b21f1f;
+    margin: 10px 0;
+    display: none;
+}
+
+.status-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1001;
+    justify-content: center;
+    align-items: center;
+}
+
+.status-content {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.status-content h2 {
+    color: #b21f1f;
+    margin-bottom: 15px;
+}
+
+    </style>
+</head>
+<body>
+
+<!-- Passcode Modal -->
+<div id="passcodeModal" class="passcode-modal">
+    <div class="passcode-content">
+        <h2>Session Verification Required</h2>
+        <p>Please enter the passcode to continue accessing this content: '123’</p>
+        <input type="password" id="passcodeInput" class="passcode-input" placeholder="Enter passcode" maxlength="6">
+        <div id="passcodeError" class="passcode-error">Incorrect passcode. Please try again.</div>
+        <button id="submitPasscode" class="passcode-btn">Submit</button>
+    </div>
+</div>
+
+<!-- Status Modal -->
+<div id="statusModal" class="status-modal">
+    <div class="status-content">
+        <h2>Access Denied</h2>
+        <p>Session terminated due to security verification failure.</p>
+        <p>The page will now close.</p>
+    </div>
+</div>
+
+    <div class="container">
+        <header>
+            <h1>VERSION 1<br>PNP Operational Scenarios Guide</h1>
+            <p class="subtitle">Radio communications templates for various operational scenarios in accordance with the Police Operational Procedures (2021 Edition)</p>
+        </header>
+        
+        <div class="scenario-list" id="scenarioList">
+            <!-- Scenarios will be inserted here by JavaScript -->
+        </div>
+        
+        <footer>
+            <p>Police Operational Procedures (2021 Edition) - For Training Purposes</p>
+        </footer>
+    </div>
+
+    <script>
+        // Scenario data
+        const scenarios = [
+            {
+                id: 1,
+                title: "Armed Confrontation",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>After a legitimate armed confrontation, the responding team must secure the area, request medical assistance, coordinate with higher headquarters (TOC), and inform support units (SOCO, CIDG, Scene Security, etc.)</p>
+                    
+                    <h3>Radio Communication</h3>
+                    <div class="radio-comm">
+                        <p><strong>Alpha 1:</strong> "TOC, TOC, this is Alpha 1, over."</p>
+                        <p><strong>TOC:</strong> "Alpha 1, this is TOC, go ahead, over."</p>
+                        <p><strong>Alpha 1:</strong> "TOC, we just had an armed confrontation at Bray. San Miguel, malapit sa public market. Nakipagbarilan ang mga suspects sa ating Team. Situation now under control, area secured. Request immediate medical assistance for one wounded suspect and one injured personnel. Over."</p>
+                        <p><strong>TOC:</strong> "Roger, Alpha 1. Copy armed confrontation at Bray. San Miguel. Dispatching ambulance and medical team. Secure the scene, preserve evidence, and do not move the bodies unless cleared by SOCO. Over."</p>
+                        <p><strong>Alpha 1:</strong> "Affirmative TOC. Scene secured, firearms recovered, and perimeter cordon established. Request coordination with SOCO for crime scene processing. Also requesting EOD/K9 to clear the area for possible unexploded ordnance. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha 1. SOCO, CIDG, and EOD/K9 teams will be dispatched. Ensure all firearms are safe and unloaded, and that all personnel remain in their positions pending investigation. Over."</p>
+                        <p><strong>Alpha 1:</strong> "Roger TOC. We're also coordinating with BFP for fire prevention standby and Barangay officials for crowd control. Over."</p>
+                        <p><strong>TOC:</strong> "Good copy, Alpha 1. Maintain communication and submit initial spot report within 30 minutes. Over."</p>
+                        <p><strong>Alpha 1:</strong> "Acknowledged TOC. Will transmit spot report and photo documentation as soon as possible. Over."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ul>
+                            <li>Secure the scene: No movement of evidence or bodies until SOCO arrives.</li>
+                            <li>Coordinate immediately: TOC must inform higher headquarters, and medico-legal.</li>
+                            <li>Medical response: Priority to injured suspects and police personnel.</li>
+                            <li>Documentation: Conduct inventory, photography, and spot reporting.</li>
+                            <li>Interagency coordination: Include LGU (for peace and order), BFP (fire risk), and medical services (ambulance/EMS).</li>
+                            <li>Post-operation: Ensure firearm inspection, ballistics examination, and debriefing of involved personnel.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                title: "Bomb Threat & Bomb Incident Emergency Response",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>A report was received regarding a suspected explosive device placed inside a public building. The responding team must coordinate, secure, evacuate, and call specialized units while following POP safety protocols.</p>
+                    
+                    <h3>1. Initial Report and Coordination</h3>
+                    <div class="radio-comm">
+                        <p><strong>First Responding Unit:</strong> "TOC, this is Mobile Alpha-25, reporting a possible bomb threat at City Hall Building, Brgy. Carmen, CDO. A suspicious package was found near the main entrance. Civilians are being evacuated. Requesting EOD/K9 Team, BFP, and medical standby. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha-25. Maintain safe distance, huwag hawakan or galawin ang suspicious object. Establish inner and outer security perimeter. EOD/K9 Team, SOCO, Rescue Unit, and BFP will be alerted and dispatched. Over."</p>
+                        <p><strong>Alpha-25:</strong> "Copy TOC. Establishing 100-meter perimeter, evacuating civilians, and diverting traffic. Maintain lang kami within visual observation distance. Over."</p>
+                    </div>
+                    
+                    <h3>2. Coordination with Specialized Units</h3>
+                    <div class="radio-comm">
+                        <p><strong>TOC:</strong> "All units, this is TOC. Confirmed bomb threat at City Hall Building, Brgy. Carmen. EOD/K9 Team Alpha, proceed to the area for assessment and render safe procedure. BFP, prepare for fire suppression and rescue support. Rescue/Medical Team, position at the outer perimeter for possible casualty evacuation. SOCO, standby for post-blast investigation if necessary. Over."</p>
+                        <p><strong>EOD/K9 Team Alpha:</strong> "Copy TOC. EOD/K9 Team Alpha en route, ETA five minutes. Will coordinate with ground commander upon arrival. Over."</p>
+                        <p><strong>BFP:</strong> "Copy TOC. BFP firetruck and personnel on standby at perimeter for immediate response. Over."</p>
+                        <p><strong>Rescue/Medical Team:</strong> "Copy TOC. Rescue and ambulance units on standby malapit sa City Hall roundabout. Over."</p>
+                    </div>
+                    
+                    <h3>3. On-Scene Update</h3>
+                    <div class="radio-comm">
+                        <p><strong>Alpha-25 (Ground Commander):</strong> "TOC, this is Alpha-25. Area cleared of civilians, inner and outer perimeters secured. Traffic rerouted, coordination made with City Disaster Office and Barangay Officials. Awaiting arrival of EOD/K9 Team. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha-25. Maintain perimeter and crowd control. Avoid radio transmission near the suspected device. Wait for EOD confirmation. Over."</p>
+                    </div>
+                    
+                    <h3>4. EOD Arrival and Assessment</h3>
+                    <div class="radio-comm">
+                        <p><strong>EOD/K9 Team Alpha:</strong> "TOC, EOD/K9 Team on site. Conducting initial assessment and detection sweep. Civilians and vehicles cleared within 100 meters. Request radio silence within immediate area. Over."</p>
+                        <p><strong>TOC:</strong> "Copy EOD/K9. Radio silence enforced within area. All responding units maintain perimeter. Over."</p>
+                        <p><strong>EOD/K9 Team Alpha (later):</strong> "TOC, device confirmed improvised explosive device (IED). Proceeding with Render Safe Procedure (RSP). Maintain area lockdown. Over."</p>
+                    </div>
+                    
+                    <h3>5. Post-Detonation / Scene Clearance</h3>
+                    <div class="radio-comm">
+                        <p><strong>EOD/K9 Team Alpha:</strong> "TOC, this is EOD/K9. IED successfully rendered safe. Scene now safe for SOCO entry. We will conduct post-blast inspection and evidence recovery. Over."</p>
+                        <p><strong>TOC:</strong> "Copy EOD/K9. SOCO Team, proceed for scene documentation and evidence collection. Alpha-25, assist in maintaining perimeter for safety. Over."</p>
+                        <p><strong>SOCO Team:</strong> "Copy TOC, SOCO on site. Conducting photo and evidence documentation. Over."</p>
+                        <p><strong>Rescue/Medical Team:</strong> "TOC, Rescue Team confirming no casualties. Ready to assist in clearing operation. Over."</p>
+                    </div>
+                    
+                    <h3>6. Post-Operation Coordination</h3>
+                    <div class="radio-comm">
+                        <p><strong>Alpha-25 (Ground Commander):</strong> "TOC, operation successful. Area declared safe by EOD/K9 and SOCO. Coordination made with City Hall Admin for reopening after clearance. Preparing spot report and documentation. Over."</p>
+                        <p><strong>TOC:</strong> "Acknowledged Alpha-25. Ensure submission of After-Operation Report within 24 hours. Commendation to all responding units for proper coordination and safety compliance. Out."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <h5>1. Safety and Perimeter Control</h5>
+                        <ul>
+                            <li>Maintain minimum 100-meter radius from suspected bomb site.</li>
+                            <li>Establish inner and outer perimeter and prevent unauthorized entry.</li>
+                        </ul>
+                        
+                        <h5>2. Coordination</h5>
+                        <ul>
+                            <li>Immediately coordinate with:
+                                <ul>
+                                    <li><strong>TOC</strong> – command and monitoring</li>
+                                    <li><strong>EOD/K9 Team</strong> – bomb assessment and neutralization</li>
+                                    <li><strong>BFP</strong> – fire suppression and rescue readiness</li>
+                                    <li><strong>Rescue/Medical Unit</strong> – standby for casualty evacuation</li>
+                                    <li><strong>SOCO</strong> – post-blast documentation and evidence handling</li>
+                                    <li><strong>LGU/Barangay</strong> – crowd and traffic control</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                        <h5>3. Communication Discipline</h5>
+                        <ul>
+                            <li>Avoid using radio or mobile phones near suspected devices.</li>
+                            <li>Use secure and minimal communication only when necessary.</li>
+                        </ul>
+                        
+                        <h5>4. Post-Operation</h5>
+                        <ul>
+                            <li>Submit After-Operation Report and documentation to TOC.</li>
+                            <li>Conduct debriefing for lessons learned and procedural improvement.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                title: "Checkpoints and Road Blocks",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>The PNP establishes a Checkpoint along a major road following a robbery incident in a nearby city.</p>
+                    
+                    <h3>Radio Communication</h3>
+                    <div class="radio-comm">
+                        <p><strong>Delta 3:</strong> "TOC, TOC, this is Delta 3, over."</p>
+                        <p><strong>TOC:</strong> "Delta 3, this is TOC, go ahead, over."</p>
+                        <p><strong>Delta 3:</strong> "TOC, we are now setting up a Checkpoint at National Highway, Bray. San Vicente, per directive of the Provincial Director in response to robbery suspects last seen on this route. Checkpoint signage is in place. Request coordination with nearby units and AFP detachment for joint operation. Over."</p>
+                        <p><strong>TOC:</strong> "Roger Delta 3. Confirmed authorized checkpoint. Coordinate with 58IB AFP detachment for joint presence. Ensure all personnel wear body cameras and maintain courtesy. Over."</p>
+                        <p><strong>Delta 3:</strong> "Affirmative TOC. Nag assign na kami ng dalawa for vehicle inspection, and four personnel for rear and front security. Barangay Tanod on standby for civilian coordination. Over."</p>
+                        <p><strong>Delta 3 (During Operation):</strong> "TOC, Delta 3. Conducted routine inspection on black SUV, plate number ABC-456. Driver appeared nervous. Upon visual check, spotted firearm on passenger side. We immediately secured the area and conducted safety search. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Delta 3. Secure the firearm and occupants. Exercise maximum tolerance and ensure presence of witnesses. Coordinate with SOCO for verification and documentation. Over."</p>
+                        <p><strong>Delta 3:</strong> "Affirmative TOC. Scene contained, no resistance. Request medical team for minor abrasions sustained by one suspect during arrest. Over."</p>
+                        <p><strong>TOC:</strong> "Roger. Medical team dispatched. Ensure proper turnover of suspect and firearm to nearest police station. Maintain checkpoint integrity until relieved. Over."</p>
+                        <p><strong>Delta 3:</strong> "Copy TOC. Will submit spot report after turnover. Over."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ol>
+                            <li><strong>Authorization and Legality:</strong>
+                                <ul>
+                                    <li>Checkpoints must be authorized by higher headquarters (Regional/Provincial Director).</li>
+                                    <li>Team leader must brief personnel before operation.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Visibility and Identification:</strong>
+                                <ul>
+                                    <li>Use checkpoint signage, reflectorized vests, marked vehicles, and flashing lights.</li>
+                                    <li>Personnel must introduce themselves courteously and never conceal identity.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Courtesy and Safety:</strong>
+                                <ul>
+                                    <li>Avoid unnecessary delay or harassment of motorists.</li>
+                                    <li>Conduct visual inspection only unless probable cause exists.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Coordination:</strong>
+                                <ul>
+                                    <li>Notify TOC, AFP, and LGU/Barangay prior to activation.</li>
+                                    <li>Medical team and BFP must be alerted for standby in case of incidents.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Handling of Evidence or Arrest:</strong>
+                                <ul>
+                                    <li>Follow chain of custody rules under RA 9165 or relevant laws.</li>
+                                    <li>Coordinate with CIDG and SOCO for inventory, documentation, and photo evidence.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Documentation:</strong>
+                                <ul>
+                                    <li>Maintain Checkpoint Logbook with time, date, personnel, and vehicles inspected.</li>
+                                    <li>Submit Spot Report and After-Operation Report to TOC within prescribed time.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                title: "Civil Disturbance Management (CDM) Operations",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>A large group is holding a mass protest in front of a government building. The rally begins peacefully but tension rises; police must maintain order, prevent violence, and coordinate with other agencies while ensuring rights and safety.</p>
+                    
+                    <h3>1. Pre-Deployment and Initial Coordination</h3>
+                    <div class="radio-comm">
+                        <p><strong>CDM Platoon Leader:</strong> "TOC, this is CDM Platoon Alpha, we are now deployed at Magsaysay Park area, Brgy. 10, CDO, in connection with the ongoing mass protest. Estimated crowd: around 300 individuals. Requesting presence of Negotiation Team, Medical Team, and Traffic Unit for assistance. Over."</p>
+                        <p><strong>TOC:</strong> "Copy CDM Alpha. Coordination made with City Public Safety Office, Bureau of Fire Protection, and CDRRMO Rescue Unit. Maintain peaceful engagement, observe maximum tolerance, and continuously report crowd behavior. Over."</p>
+                        <p><strong>CDM Alpha:</strong> "Copy TOC. Establishing CDM Command Post and positioning of Negotiation and Riot Control Element. Over."</p>
+                    </div>
+                    
+                    <h3>2. Situation Monitoring</h3>
+                    <div class="radio-comm">
+                        <p><strong>CDM Ground Commander:</strong> "TOC, this is CDM Ground. Crowd remains generally peaceful but agitators spotted in front line. Negotiation Team now engaging rally leaders to remind them of limits under Bates Pambansa Big. 880. We're maintaining defensive formation. Over."</p>
+                        <p><strong>TOC:</strong> "Copy CDM Ground. Continue dialogue and avoid use of force unless necessary. Provincial Legal Officer and CHR representative are being notified for monitoring. Over."</p>
+                        <p><strong>Negotiation Team:</strong> "TOC, this is Negotiation Team. We have established contact with group leader. They agreed to confine protest within designated area. Situation under control for now. Over."</p>
+                    </div>
+                    
+                    <h3>3. Escalation of Tension</h3>
+                    <div class="radio-comm">
+                        <p><strong>CDM Alpha:</strong> "TOC, situation escalating. May mga protesters na nangbabato ng plastic bottles and pushing the barricade. Request BFP water truck for crowd control standby and Medical Team near front line. Over."</p>
+                        <p><strong>TOC:</strong> "Copy CDM Alpha. BFP water unit and CDRRMO ambulance dispatched to your location. Maintain maximum tolerance and avoid unnecessary contact. CDM Bravo on standby for reinforcement. Over."</p>
+                        <p><strong>BFP Unit:</strong> "Copy TOC, papunta na dyan ang BFP fire truck, ETA five minutes. Coordinating with CDM on scene. Over."</p>
+                        <p><strong>Rescue/Medical Team:</strong> "Copy TOC, Rescue Unit positioned behind CDM formation for immediate medical response. Over."</p>
+                    </div>
+                    
+                    <h3>4. Implementation of Crowd Control Measures</h3>
+                    <div class="radio-comm">
+                        <p><strong>CDM Ground Commander:</strong> "TOC, CDM Ground initiating show of force to disperse violent faction. Verbal warnings issued using megaphone: 'Please disperse, this is an unlawful assembly!' Negotiation Team continues to appeal for calm. Over."</p>
+                        <p><strong>TOC:</strong> "Copy CDM Ground. Ensure video recording of police actions and announcements for documentation. Avoid hitting non-aggressive protesters. Over."</p>
+                        <p><strong>CDM Platoon Leader:</strong> "TOC, small group of agitators arrested for throwing stones. Arresting officers informed suspects of rights per Miranda doctrine. Detainees will be transported to City Police Station for documentation. Over."</p>
+                        <p><strong>TOC:</strong> "Copy CDM Alpha. Coordinate with Investigation Unit and Human Rights Desk. Ensure medical examination and proper documentation. Over."</p>
+                    </div>
+                    
+                    <h3>5. Restoration of Normalcy</h3>
+                    <div class="radio-comm">
+                        <p><strong>CDM Ground Commander:</strong> "TOC, this is CDM Ground. Situation now under control. Majority of protesters have dispersed peacefully. Remaining groups assisted by Negotiation Team to vacate area. No major injury reported; one minor casualty treated by Rescue Unit. Over."</p>
+                        <p><strong>TOC:</strong> "Copy CDM Ground. Good work. Maintain residual deployment until area fully cleared. Submit After-Operation Report including video, photos, and summary of arrested individuals. Over."</p>
+                    </div>
+                    
+                    <h3>6. Post-Operation Coordination</h3>
+                    <div class="radio-comm">
+                        <p><strong>CDM Alpha:</strong> "TOC, area cleared and normalized. BFP, Rescue, and Traffic Units stood down. Coordinating with LGU for cleanup and reopening of traffic flow. Over."</p>
+                        <p><strong>TOC:</strong> "Acknowledged CDM Alpha. Commend coordination of all units. Ensure debriefing of personnel and spot report submission within 24 hours. Operation terminated. Out."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ol>
+                            <li><strong>Coordination:</strong>
+                                <ul>
+                                    <li>Maintain close coordination with:
+                                        <ul>
+                                            <li>TOC / Tactical Operations Center – for command and monitoring.</li>
+                                            <li>Negotiation Team – to communicate with protesters and reduce tension.</li>
+                                            <li>BFP – for water truck standby or emergency fire response.</li>
+                                            <li>Rescue/Medical Units (CDRRMO / Red Cross) – for casualty treatment or extraction.</li>
+                                            <li>LGU / Barangay Officials – for local support, traffic, and crowd management.</li>
+                                            <li>CHR / Legal Officers – for human rights monitoring and legal compliance.</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><strong>Discipline & Documentation:</strong>
+                                <ul>
+                                    <li>Always observe maximum tolerance.</li>
+                                    <li>Ensure recording of all actions through body-worn cameras or documentation teams.</li>
+                                    <li>Give clear verbal warnings before dispersal.</li>
+                                    <li>Follow use-of-force continuum per POP.</li>
+                                    <li>Respect constitutional rights of assembly and speech.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Medical and Legal Procedures:</strong>
+                                <ul>
+                                    <li>All arrested persons must be informed of their rights, medically examined, and properly documented.</li>
+                                    <li>Submit Spot Report and After-Operation Report to TOC.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                title: "Death/Crime Scene Response",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>A local resident reports a possible dead body found in a grassy area beside the highway. The first responding team arrives to verify and secure the area.</p>
+                    
+                    <h3>Radio Communication</h3>
+                    <div class="radio-comm">
+                        <p><strong>Charlie 4:</strong> "TOC, TOC, this is Charlie 4, over."</p>
+                        <p><strong>TOC:</strong> "Charlie 4, TOC here, go ahead, over."</p>
+                        <p><strong>Charlie 4:</strong> "TOC, we received a report from the Punong Barangay regarding a lifeless body found at the grassy area near KM 18, Bray. San Roque. Upon arrival, we confirmed one male person lying face down, no signs of life. Establishing perimeter now. Requesting SOCO and medico-legal team. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Charlie 4. Maintain security perimeter. Do not move or touch anything within the scene. SOCO and medico-legal notified, ETA 20 minutes. Ensure presence of Barangay Official as witness. Over."</p>
+                        <p><strong>Charlie 4:</strong> "Roger TOC. Scene cordoned, barangay official and tanods on standby. We have two possible witnesses, already secured for later interview. Over."</p>
+                        <p><strong>Charlie 4 (During Scene Preservation and Turnover):</strong> "TOC, Charlie 4. SOCO team has arrived. We are assisting in scene perimeter control and crowd management. Witnesses being interviewed. No sign of disturbance or struggle around the area. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Charlie 4. Allow SOCO to take lead in documentation and evidence gathering. Ensure all entries recorded in police blotter and crime scene log. Over."</p>
+                        <p><strong>Charlie 4:</strong> "Affirmative TOC. SOCO currently processing. Photos and sketch ongoing. Awaiting medico-legal for body examination. Over."</p>
+                        <p><strong>Charlie 4 (Post-SOCO and Scene Turnover):</strong> "TOC, Charlie 4. SOCO completed documentation. Body transferred by medico-legal to funeral parlor for autopsy. Scene cleared 1620H. Will submit Spot Report and Witness Statements. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Charlie 4. Good work. Ensure reports and coordination notes forwarded to Investigation Section for case build-up. Over and out."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ol>
+                            <li><strong>First Responder Duties:</strong>
+                                <ul>
+                                    <li>Secure the scene immediately.</li>
+                                    <li>Do not touch, move, or alter any object or evidence.</li>
+                                    <li>Notify TOC and SOCO as soon as a death is confirmed.</li>
+                                    <li>Record exact time of arrival, initial observations, and persons present.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Coordination:</strong>
+                                <ul>
+                                    <li>TOC – Command and monitoring.</li>
+                                    <li>SOCO – Lead in crime scene processing, photography, sketching, and evidence handling.</li>
+                                    <li>Medico-Legal – Examination and removal of the body.</li>
+                                    <li>Barangay Officials – Scene witness and coordination.</li>
+                                    <li>BFP / Rescue – Standby if scene presents hazards (fire, gas, etc.).</li>
+                                </ul>
+                            </li>
+                            <li><strong>During SOCO Processing:</strong>
+                                <ul>
+                                    <li>Maintain outer and inner perimeter.</li>
+                                    <li>List all persons entering/exiting the crime scene (Crime Scene Log).</li>
+                                    <li>Assist SOCO but do not interfere in documentation.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Post-Processing:</strong>
+                                <ul>
+                                    <li>Ensure body turn-over documentation to medico-legal or funeral service.</li>
+                                    <li>Prepare and submit Spot Report, Incident Report, and Affidavits.</li>
+                                    <li>Forward all case-related documents to the Investigation Section.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                id: 6,
+                title: "Disaster Response and Rescue Operations",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>Heavy flooding due to continuous rain. Several residents are stranded on rooftops in Bray. San Isidro. Local PNP is conducting rescue and evacuation operations in coordination with BFP, CDRRMO, and DOH.</p>
+                    
+                    <h3>Radio Communication</h3>
+                    <div class="radio-comm">
+                        <p><strong>Bravo 5:</strong> "TOC, TOC, this is Bravo 5, over."</p>
+                        <p><strong>TOC:</strong> "Bravo 5, TOC here, go ahead, over."</p>
+                        <p><strong>Bravo 5:</strong> "TOC, ongoing heavy flooding in Bray. San Isidro. Multiple families stranded on rooftops. Requesting immediate coordination with BFP and CDRRMO for rubber boats and medical team. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Bravo 5. CDRRMO and BFP already notified and dispatching rescue boats. Maintain visibility in the area and prioritize children and elderly for evacuation. Over."</p>
+                        <p><strong>Bravo 5:</strong> "Roger TOC. Establishing command post near barangay hall. Coordinating with the Punong Barangay for headcount and rescue priority. Over."</p>
+                        <p><strong>Bravo 5 (During Rescue Operations):</strong> "TOC, Bravo 5. First group of evacuees secured—8 individuals including 3 minors. Proceeding to evacuation center at San Isidro Elementary School. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Bravo 5. Confirm presence of medical personnel at the site. City Health team en route for health assessment and debriefing. Over."</p>
+                        <p><strong>Bravo 5:</strong> "Affirmative TOC. Medical team already coordinating with us. BFP assisting with water rescue. Over."</p>
+                        <p><strong>Bravo 5 (Ongoing Monitoring and Safety Check):</strong> "TOC, Bravo 5. Second wave of evacuees underway, but strong current detected near bridge area. Request additional rescue team and one more rubber boat. Over."</p>
+                        <p><strong>TOC:</strong> "Roger Bravo 5. Additional team from RPSB and another BFP boat deploying. Maintain safety—no unnecessary risk. Ensure coordination with CDRRMO and Barangay Rescue. Over."</p>
+                        <p><strong>Bravo 5:</strong> "Copy TOC. All rescuers accounted for. Evacuation ongoing. Will submit headcount after extraction. Over."</p>
+                        <p><strong>Bravo 5 (After Operation Completion):</strong> "TOC, Bravo 5. All affected families rescued. Total 37 individuals safely evacuated. Area cleared at 2230H. Conducting final sweep for verification. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Bravo 5. Good job. Coordinate with Barangay and DSWD for relief distribution and evacuee management. Submit Spot Report and Situation Report (SITREP) with photos. Over and out."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ol>
+                            <li><strong>Pre-Deployment:</strong>
+                                <ul>
+                                    <li>Maintain coordination with LGU, CDRRMO, BFP, and DOH before proceeding.</li>
+                                    <li>Conduct briefing to identify hazards and evacuation routes.</li>
+                                    <li>Prepare first aid kits, life vests, and communication gear.</li>
+                                </ul>
+                            </li>
+                            <li><strong>During Operations:</strong>
+                                <ul>
+                                    <li>Prioritize rescue of vulnerable groups (children, elderly, PWDs, pregnant women).</li>
+                                    <li>Maintain radio contact with TOC at all times.</li>
+                                    <li>Assign team leader, rescue team, and medical team for clear tasking.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Coordination:</strong>
+                                <ul>
+                                    <li>CDRRMO: Situation monitoring and rescue coordination.</li>
+                                    <li>BFP: Water rescue and fire suppression.</li>
+                                    <li>DOH/Red Cross: Medical assistance and evacuation care.</li>
+                                    <li>Barangay: Ground data and evacuee accountability.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Post-Operation:</strong>
+                                <ul>
+                                    <li>Submit SITREP and Damage Assessment Report.</li>
+                                    <li>Secure photo documentation and evacuee list.</li>
+                                    <li>Participate in relief, clearing, and rehabilitation support.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                id: 7,
+                title: "High-Risk Arrest",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>Service of warrant against a known armed suspect with a history of resistance.</p>
+                    
+                    <h3>1. Pre-Arrest Coordination</h3>
+                    <div class="radio-comm">
+                        <p><strong>Team Leader:</strong> "TOC, this is Warrant Team Alpha, initiating high-risk arrest operation. Target: Juan Dela Cruz, wanted for murder, possibly armed. Location: Purok 5, Brgy. Canitoan, CDO. Coordination made with Brgy. Chairman and nearby station. Requesting back-up and standby ambulance. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Team Alpha. Back-up Team Bravo on standby. Proceed with caution, follow POP protocols, use body-worn camera, and report progress. Over."</p>
+                    </div>
+                    
+                    <h3>2. During Arrest</h3>
+                    <div class="radio-comm">
+                        <p><strong>Team Alpha (on scene):</strong> "TOC, Team Alpha nakikita na naming ang target. Initiating verbal command. Over."</p>
+                        <p><strong>Team Leader (verbal command):</strong> "Juan Dela Cruz! Police ito! You are under arrest by virtue of a warrant of arrest! Dahan-dahang itaas ang lyong kamay at dumapa!"</p>
+                        <p><strong>TOC:</strong> "Copy Team Alpha. Maintain communication. Update once suspect is secured. Over."</p>
+                    </div>
+                    
+                    <h3>3. Post-Arrest Reporting</h3>
+                    <div class="radio-comm">
+                        <p><strong>Team Alpha:</strong> "TOC, suspect secured and disarmed. No injury sustained. Conducting body search and reading of Miranda rights. Copy of warrant shown and acknowledged. We will transport the suspect to COCPO HQ for documentation. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Team Alpha. Ensure spot report is submitted timely and documentation of the suspect's arrest. Over."</p>
+                    </div>
+                    
+                    <h3>4. Final Report / Turnover</h3>
+                    <div class="radio-comm">
+                        <p><strong>Team Alpha:</strong> "TOC, Warrant served successfully, operation completed. Request to log as 'cleared.' Over."</p>
+                        <p><strong>TOC:</strong> "Acknowledged Team Alpha. Good job. Operation logged as 'cleared'. Out."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ol>
+                            <li>Always report location, unit, and nature of operation.</li>
+                            <li>Maintain radio discipline — clear, concise, no unnecessary chatter.</li>
+                            <li>Follow coordination protocol with TOC and other support units.</li>
+                            <li>Ensure documentation, safety, and advisement of rights.</li>
+                            <li>Use body-worn camera for transparency.</li>
+                            <li>Report before, during, and after operation.</li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                id: 8,
+                title: "High-Risk Stop",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>A mobile patrol unit is about to intercept a vehicle with armed suspects.</p>
+                    
+                    <h3>1. Pre-Stop Coordination</h3>
+                    <div class="radio-comm">
+                        <p><strong>Patrol Unit:</strong> "TOC, this is Mobile Alpha-21. Requesting coordination for a possible high-risk vehicle stop. Location: National Highway, Bray. Upper Carmen, CDO. Subject vehicle: gray Toyota Vios, plate number ABC 1234, with three male suspects, possibly armed. Request immediate back-up and traffic control. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha-21. Coordination acknowledged. Nearest unit Mobile Bravo-14 directed to assist. Maintain visual contact only, wag muna mag-engage until back-up arrives. Over."</p>
+                    </div>
+                    
+                    <h3>2. Execution of Stop</h3>
+                    <div class="radio-comm">
+                        <p><strong>Patrol Unit (upon support arrival):</strong> "TOC, Alpha-21 and Bravo-14 now in position. We are initiating high-risk stop procedure. We'll conduct verbal command and tactical approach. Request monitoring. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha-21, proceed with caution. Ensure recording and documentation. Over."</p>
+                    </div>
+                    
+                    <h3>3. Verbal Command to Suspects (using megaphone/loudspeaker)</h3>
+                    <div class="radio-comm">
+                        <p>"Driver ng gray Toyota Vios, Police 'to! Turn off your engine, both hands on the steering wheel! Passengers, taas ang mga kamay at huwag gagalaw! One by one, step out slowly, face away from us, hands raised. Follow our instructions carefully!"</p>
+                    </div>
+                    
+                    <h3>4. Post-Stop Report</h3>
+                    <div class="radio-comm">
+                        <p><strong>Patrol Unit:</strong> "TOC, suspects are compliant and secured. Vehicle cleared, negative for additional threats. We are now conducting search and frisk procedure. Dadalhin na naming ang mga suspects sa Police Station 4. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha-21. Proceed with inventory, documentation, and advise the suspect/s Miranda warning. Over."</p>
+                    </div>
+                `
+            },
+            {
+                id: 9,
+                title: "Hostage Situation",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>A call was received regarding an ongoing hostage situation inside a commercial establishment. Responding unit must coordinate, contain, negotiate, and prepare for tactical or medical response following POP guidelines.</p>
+                    
+                    <h3>1. Initial Report and Coordination</h3>
+                    <div class="radio-comm">
+                        <p><strong>First Responding Unit:</strong> "TOC, this is Mobile Alpha-32, reporting a possible hostage situation at JY Commercial Building, Brgy. Carmen, CDO. One male suspect armed with a pistol, holding one female hostage inside the store. Requesting immediate back-up, negotiation team, and medical standby. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha-32. Maintain safe distance and establish outer and inner perimeter. SWAT, Negotiation Team, and Scene of the Crime Unit (SOCO) will be alerted. BFP and Rescue Unit also advised for standby. Acknowledge. Over."</p>
+                        <p><strong>Alpha-32:</strong> "Copy TOC. Establishing perimeter, clearing civilians, and maintaining visual. Will not engage unless necessary. Over."</p>
+                    </div>
+                    
+                    <h3>2. Coordination with Supporting Units</h3>
+                    <div class="radio-comm">
+                        <p><strong>TOC:</strong> "All units, this is TOC. Hostage situation ongoing at JY Commercial Building. SWAT Team Alpha, proceed to staging area at corner Capistrano St. for containment. Negotiation Team Bravo, coordinate with Alpha-32 on-site. Rescue and Medical Team, standby near perimeter for casualty evacuation. BFP, prepare firetruck for possible rescue assistance. Over."</p>
+                        <p><strong>SWAT Team Alpha:</strong> "Copy TOC, SWAT Team Alpha en route to staging area. ETA five minutes. Will await situational briefing. Over."</p>
+                        <p><strong>Negotiation Team Bravo:</strong> "Copy TOC, Negotiation Team Bravo en route. Prepare line for communication with suspect. Over."</p>
+                        <p><strong>Rescue/Medical Team:</strong> "Copy TOC, Rescue Team from City Disaster Office on standby kami malapit sa area. Ambulance ready. Over."</p>
+                    </div>
+                    
+                    <h3>3. On-Scene Update</h3>
+                    <div class="radio-comm">
+                        <p><strong>Alpha-32 (Ground Commander):</strong> "TOC, this is Alpha-32. Perimeter established. Civilians evacuated. Hostage taker visible through glass door, still armed, appears agitated. Negotiation Team Bravo now setting up command post 30 meters from main entrance. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha-32. Maintain calm environment, avoid provoking the suspect. SWAT and Negotiation Teams will take over scene command. Ituloy nyo lang ang outer security. Over."</p>
+                    </div>
+                    
+                    <h3>4. Negotiation Phase</h3>
+                    <div class="radio-comm">
+                        <p><strong>Negotiation Team Bravo:</strong> "TOC, Negotiation Team now engaging suspect via loudspeaker. Establishing rapport. Hostage appears unhurt but frightened. Suspect demands vehicle and media presence. We're assessing threat level and emotional state. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Bravo. No media allowed within the area. Continue negotiation. SWAT Team on tactical standby. Maintain coordination with Medical and BFP. Over."</p>
+                        <p><strong>SWAT Team Alpha:</strong> "Copy TOC. We are in ready position for immediate action upon order. Nakikita naming one hostage at isang armed suspect. Over."</p>
+                    </div>
+                    
+                    <h3>5. Tactical Resolution / Arrest</h3>
+                    <div class="radio-comm">
+                        <p><strong>Negotiation Team Bravo:</strong> "TOC, suspect distracted. SWAT Team may now initiate tactical entry upon signal. Over."</p>
+                        <p><strong>TOC:</strong> "Copy. SWAT Team Alpha, you are cleared to proceed if safe opportunity exists. Ensure minimal use of force and preserve life. Over."</p>
+                        <p><strong>SWAT Team Alpha:</strong> "TOC, entry executed. Suspect neutralized, hostage rescued and safe. No police casualty. One suspect wounded. Requesting immediate medical evacuation. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha. Rescue Team, pasok na kayo for medical extraction. Scene now under police control. Over."</p>
+                        <p><strong>Rescue/Medical Team:</strong> "Copy TOC, Rescue Team moving in. Wounded suspect being stabilized and will be transported to Northern Mindanao Medical Center. Over."</p>
+                    </div>
+                    
+                    <h3>6. Post-Operation Procedures</h3>
+                    <div class="radio-comm">
+                        <p><strong>Alpha-32 (Scene Commander):</strong> "TOC, all units stand down. Hostage safe, suspect under custody. SOCO on-site for documentation and evidence collection. Preparing spot report and post-operation debriefing. Over."</p>
+                        <p><strong>TOC:</strong> "Acknowledged. Excellent coordination by all units. Ensure submission of After-Operation Report, including video documentation and inventory of evidence. Operation logged and terminated. Out."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ol>
+                            <li><strong>Coordination:</strong>
+                                <ul>
+                                    <li>Always coordinate with TOC, SWAT, Negotiation Team, BFP, and Medical/Rescue units.</li>
+                                    <li>Maintain continuous communication and situational updates.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Containment and Safety:</strong>
+                                <ul>
+                                    <li>Establish inner and outer perimeter immediately.</li>
+                                    <li>Avoid unnecessary confrontation; life preservation is the priority.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Negotiation and Tactical Resolution:</strong>
+                                <ul>
+                                    <li>Use trained negotiators to handle the suspect.</li>
+                                    <li>SWAT acts only upon TOC authorization or when lives are in imminent danger.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Medical and Post-Operation:</strong>
+                                <ul>
+                                    <li>Always have medical support on standby.</li>
+                                    <li>Conduct debriefing, documentation, and report submission within 24 hours.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                id: 10,
+                title: "Hot Pursuit Operation",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>A robbery incident just occurred, and the suspects fled on board a red motorcycle heading toward the next barangay. Responding units conduct hot pursuit within the reglementary time and reasonable distance.</p>
+                    
+                    <h3>Radio Communication</h3>
+                    <div class="radio-comm">
+                        <p><strong>Foxtrot 2:</strong> "TOC, TOC, this is Foxtrot 2, over."</p>
+                        <p><strong>TOC:</strong> "Foxtrot 2, this is TOC, go ahead, over."</p>
+                        <p><strong>Foxtrot 2:</strong> "TOC, we are initiating hot pursuit operation following an armed robbery incident at Purok 3, Brgy. Mabu hay. Suspects on board a red Honda XRM, no plate number, last seen heading south toward Brgy. San Isidro. Request roadblock coordination and backup from nearby stations. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Foxtrot 2. Confirm time of incident and distance from crime scene. Coordination relayed to San Isidro Police Station for blocking operations. Maintain communication and observe safety. Over."</p>
+                        <p><strong>Foxtrot 2:</strong> "Affirmative TOC. Incident occurred 10 minutes ago. We are 3 kilometers from the scene, visual contact not yet established. Over."</p>
+                        <p><strong>Foxtrot 2 (During Pursuit):</strong> "TOC, Foxtrot 2. Visual contact established with suspects near San Isidro boundary. They are attempting to evade. Request additional unit from HPG for highway interception. Over."</p>
+                        <p><strong>TOC:</strong> "Roger Foxtrot 2. HPG informed and en route to intercept. Exercise extreme caution, avoid crossfire with civilians. Coordinate with Barangay and LGU for traffic diversion. Over."</p>
+                        <p><strong>Foxtrot 2:</strong> "Copy TOC. Suspects have crashed. We're moving in, providing verbal warning. Standby for update. Over."</p>
+                        <p><strong>Foxtrot 2 (After Arrest):</strong> "TOC, suspects apprehended. Recovered one .38 revolver and cash believed from the robbery. No civilian casualties. One suspect sustained minor injury due to crash. Request medical team for immediate treatment. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Foxtrot 2. Medical team dispatched. Secure suspects and evidence. SOCO and CIDG notified for documentation. Maintain perimeter until relieved. Over."</p>
+                        <p><strong>Foxtrot 2:</strong> "Roger TOC. Scene secured, Punong Barangay on site as witness. Will transport suspects to station after medico-legal check. Over and out."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ol>
+                            <li><strong>Legal Basis:</strong>
+                                <ul>
+                                    <li>Hot pursuit arrest is lawful under Rule 113, Sec. 5(b) of the Rules of Criminal Procedure, when an offense has just been committed and the officer has personal knowledge of facts indicating that the person to be arrested committed it.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Coordination:</strong>
+                                <ul>
+                                    <li>Immediately notify TOC and nearby units for blocking or interception.</li>
+                                    <li>Coordinate with HPG, Barangay, and LGU for traffic control and area clearing.</li>
+                                    <li>If suspects cross boundaries, inform adjacent police stations for continuous pursuit.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Safety and Conduct:</strong>
+                                <ul>
+                                    <li>Avoid indiscriminate firing.</li>
+                                    <li>Prioritize safety of civilians and responding personnel.</li>
+                                    <li>Render first aid or medical assistance to injured suspects or bystanders.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Evidence and Documentation:</strong>
+                                <ul>
+                                    <li>Recover and mark all evidence (e.g., firearms, money, vehicle).</li>
+                                    <li>Request SOCO and CIDG for proper documentation and investigation.</li>
+                                    <li>Submit Spot Report and After-Operation Report within prescribed period.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Human Rights Compliance:</strong>
+                                <ul>
+                                    <li>Inform suspects of their constitutional rights immediately upon arrest.</li>
+                                    <li>Conduct medical examination before and after detention.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                id: 11,
+                title: "Implementation of Writ of Demolition",
+                content: `
+                    <h3>Situation</h3>
+                    <p>Rendering police assistance for the Court Sheriff in the implementation of Writ of Demolition (or any Court/Administrative Order).</p>
+                    
+                    <h3>A. Initial Coordination / Departure</h3>
+                    <p><strong>Time:</strong> 0800H<br>
+                    <strong>Station:</strong> Oroquieta CPS<br>
+                    <strong>Frequency:</strong> PNP Tactical Net</p>
+                    <div class="radio-comm">
+                        <p><strong>Team Leader (TL):</strong> "TOC, this is Alpha One. We are now en route to Bray. Lower Lamac to assist the Court Sheriff sa implementasyon ng Writ of Demolition as per RTC Order No. 2025-041. Nakipag-coordinate na kami sa LGU, BFP, at City Health Office para sa medical standby. Over."</p>
+                        <p><strong>TOC:</strong> "Alpha One, copy. Ensure na kumpleto ang witnesses, may video documentation, at observe maximum tolerance. Report your arrival on site. Over."</p>
+                        <p><strong>Team Leader:</strong> "Roger, TOC. Alpha One, over."</p>
+                    </div>
+                    
+                    <h3>B. Arrival and Area Assessment</h3>
+                    <p><strong>Time:</strong> 0830H</p>
+                    <div class="radio-comm">
+                        <p><strong>Team Leader:</strong> "TOC, Alpha One now on site. Kasama na ang Court Sheriff, LGU representatives, BFP, at medical team. Area is secured. Wala pang resistance o unusual activity observed. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha One. Proceed with assistance as requested by the Court Sheriff. Reminder, huwag directly makialam sa demolition maliban kung may threat sa peace and order. Over."</p>
+                        <p><strong>Team Leader:</strong> "Roger, TOC. Understood. Over."</p>
+                    </div>
+                    
+                    <h3>C. During Implementation / Possible Resistance</h3>
+                    <p><strong>Time:</strong> 0900H</p>
+                    <div class="radio-comm">
+                        <p><strong>Team Leader:</strong> "Control, Alpha One. Ongoing na ang implementation ng order. May grupo ng residents na nagsisimulang magtipon sa gilid. Request standby assistance from medical and BFP for safety. Over."</p>
+                        <p><strong>TOC:</strong> "Alpha One, copy. Coordinate with City Health medical team at BFP para sa standby support. Maintain maximum tolerance, iwasan ang confrontation, and ensure continuous video documentation. Over."</p>
+                        <p><strong>Team Leader:</strong> "Roger, Control. Coordination ongoing. Over."</p>
+                    </div>
+                    
+                    <h3>D. Medical or Safety Incident</h3>
+                    <p><strong>Time:</strong> 0920H</p>
+                    <div class="radio-comm">
+                        <p><strong>Team Leader:</strong> "Control, Alpha One. May isang civilian na hininatay, possible heat exhaustion. Request immediate medical response on site. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha One. Medical Team informed, en route na sila sa location ninyo. Over."</p>
+                        <p><strong>Medical Team (CHO):</strong> "Alpha One, this is MedTeam One. Nasa site na kami. Conducting assessment and first aid. Over."</p>
+                        <p><strong>Team Leader:</strong> "Copy MedTeam One, thank you for the prompt response. Over."</p>
+                    </div>
+                    
+                    <h3>E. Completion of Task</h3>
+                    <p><strong>Time:</strong> 1030H</p>
+                    <div class="radio-comm">
+                        <p><strong>Team Leader:</strong> "Control, Alpha One. Implementation completed peacefully. No untoward incident reported. All agencies accounted for. We are now clearing the area and returning to base. Over."</p>
+                        <p><strong>Control:</strong> "Alpha One, copy. Good job. Submit After-Activity Report with coordination logs and documentation. Over."</p>
+                        <p><strong>Team Leader:</strong> "Roger, Control. Alpha One out."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ul>
+                            <li>Police assistance is <strong>for peacekeeping and crowd control only</strong>, not for enforcement.</li>
+                            <li><strong>Maintain neutrality</strong> at all times.</li>
+                            <li><strong>Video and photo documentation</strong> are required.</li>
+                            <li><strong>Coordinate</strong> with:
+                                <ul>
+                                    <li>Court Sheriff / Issuing Authority</li>
+                                    <li>LGU / Barangay Officials</li>
+                                    <li>BFP (fire safety / standby)</li>
+                                    <li>City Health Office (medical assistance)</li>
+                                    <li>Other law enforcement (if necessary, e.g. CIDG / SWAT)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Report and debrief</strong> to TOC or higher HQ after operation.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 12,
+                title: "Kidnapping Response Operation",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>A kidnapping was reported involving a minor taken by armed suspects aboard a gray van heading north. Local PNP and AKG are coordinating for pursuit and rescue.</p>
+                    
+                    <h3>Radio Communication</h3>
+                    <div class="radio-comm">
+                        <p><strong>Alpha 2:</strong> "TOC, TOC, this is Alpha 2, over."</p>
+                        <p><strong>TOC:</strong> "Alpha 2, TOC here, go ahead, over."</p>
+                        <p><strong>Alpha 2:</strong> "TOC, may na received kami na report mula sa Punong Barangay, of an alleged kidnapping incident at Zone 5, Bray. San Miguel. Victim: 10-year-old male, suspects onboard gray van with no plate number, heading northbound. Requesting immediate alert and coordination with nearby units for possible interception. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha 2. Standby. Alert issued to all adjacent stations and HPG checkpoints. AKG notified for technical assistance. Maintain pursuit and update direction of travel. Over."</p>
+                        <p><strong>Alpha 2:</strong> "Roger TOC. Proceeding with pursuit. Barangay personnel assisting for witness statement. Will update on vehicle direction. Over."</p>
+                        <p><strong>Alpha 2 (During Hot Pursuit / Tracking Phase):</strong> "TOC, Alpha 2. Gray van sighted along national highway, direction North. Requesting back-up from Bravo 3 unit for blocking force ahead. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha 2. Bravo 3 coordinating for roadblock setup. AKG tracker unit en route. Maintain safe distance and visual contact only. Do not engage unless necessary to protect life. Over."</p>
+                        <p><strong>Alpha 2:</strong> "Affirmative TOC. Maintaining visual, distance approximately 200 meters. Coordinating with HPG for road closure at KM 42. Over."</p>
+                        <p><strong>TOC:</strong> "Acknowledged Alpha 2. Medical and SOCO standby at RHQ for post-rescue response. Continue updates. Over."</p>
+                        <p><strong>Alpha 2 (Upon Recovery / Arrest):</strong> "TOC, Alpha 2. Suspect vehicle cornered near KM 45. Three male suspects subdued. Victim rescued safe, minor injuries. Requesting immediate medical and SOCO response. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha 2. Excellent. Dispatching ambulance and SOCO. Ensure suspects are secured, evidence preserved, and area cordoned. AKG team proceeding for documentation. Over."</p>
+                        <p><strong>Alpha 2:</strong> "Roger TOC. Evidence preserved—firearm recovered inside van. Will maintain scene until SOCO arrival. Victim en route to nearest hospital for check-up. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Alpha 2. Coordinate with WCPD for victim assistance and statement. Submit Spot Report within 6 hours. Over and out."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ol>
+                            <li><strong>Initial Response:</strong>
+                                <ul>
+                                    <li>Immediately report to TOC upon receipt of kidnapping information.</li>
+                                    <li>Record time, location, and suspect vehicle description.</li>
+                                    <li>Coordinate with AKG (Anti-Kidnapping Group) for joint operations.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Coordination:</strong>
+                                <ul>
+                                    <li>TOC: Command and monitoring.</li>
+                                    <li>AKG: Lead agency for investigation and negotiation.</li>
+                                    <li>HPG / Adjacent Stations: For pursuit and checkpoint coordination.</li>
+                                    <li>SOCO: Scene documentation post-recovery.</li>
+                                    <li>Medical / WCPD: Victim care and debriefing.</li>
+                                </ul>
+                            </li>
+                            <li><strong>During Pursuit / Rescue:</strong>
+                                <ul>
+                                    <li>Maintain radio contact with TOC every update (direction, sightings, actions).</li>
+                                    <li>Avoid reckless pursuit; safety of victim is top priority.</li>
+                                    <li>Coordinate blocking forces and containment points.</li>
+                                </ul>
+                            </li>
+                            <li><strong>After Rescue:</strong>
+                                <ul>
+                                    <li>Secure suspects, preserve scene, and document evidence.</li>
+                                    <li>Turn over suspects and victim to AKG / Investigation Unit.</li>
+                                    <li>Submit Spot Report and Sworn Statements per POP 2021 guidelines.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                id: 13,
+                title: "Quarantine or Lockdown Measures",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>Enforcing quarantine or lockdown measures due to health emergency.</p>
+                    
+                    <h3>A. Initial Reporting and Coordination</h3>
+                    <div class="radio-comm">
+                        <p><strong>Patrol Team:</strong> "TOC, this is Bravo Two-One conducting quarantine enforcement at Bray. San Miguel checkpoint. We're coordinating with LGU Health Office and Barangay Tanods as per protocol. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Bravo Two-One, acknowledge coordination with LGU. Maintain minimum health standards and ensure non-confrontational approach with civilians. Over."</p>
+                    </div>
+                    
+                    <h3>B. Encounter with Violator / Non-Compliant Person</h3>
+                    <div class="radio-comm">
+                        <p><strong>Patrol Team:</strong> "TOC, we have one (1) individual refusing to wear face mask and resisting health screening. We are engaging peacefully and explaining the guidelines. Over."</p>
+                        <p><strong>TOC:</strong> "Roger, Bravo Two-One. Continue with verbal persuasion and observe maximum tolerance. Only use necessary and proportionate force if individual becomes unruly. Over."</p>
+                    </div>
+                    
+                    <h3>C. Coordination with Health and LGU Personnel</h3>
+                    <div class="radio-comm">
+                        <p><strong>Patrol Team:</strong> "TOC, requesting presence of Barangay Health Response Team and LGU Enforcement Unit for documentation and possible transport to isolation area. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Bravo Two-One. Coordinating with City Health Office and LGU Response Team. Maintain safe distance and avoid physical contact unless necessary. Over."</p>
+                    </div>
+                    
+                    <h3>D. If Subject Requires Medical Attention or Isolation</h3>
+                    <div class="radio-comm">
+                        <p><strong>Patrol Team:</strong> "TOC, subject shows symptoms of fever and cough. Requesting ambulance and medical team for proper handling and transfer to isolation facility. Over."</p>
+                        <p><strong>TOC:</strong> "Acknowledged. Rescue and medical team en route. All responding personnel, ensure PPE is worn and observe disinfection protocol after contact. Over."</p>
+                    </div>
+                    
+                    <h3>E. Crowd Control or Public Disturbance Related to Quarantine</h3>
+                    <div class="radio-comm">
+                        <p><strong>Patrol Team:</strong> "TOC, crowd forming near checkpoint, civilians questioning restrictions. Requesting CDM augmentation for crowd control. We are maintaining maximum tolerance. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Bravo Two-One. CDM team and Public Information Officer dispatched. Keep calm engagement, use PA system to explain quarantine rules. Over."</p>
+                    </div>
+                    
+                    <h3>F. Arrest and Turnover (If Needed)</h3>
+                    <div class="radio-comm">
+                        <p><strong>Patrol Team:</strong> "TOC, one (1) person arrested for direct assault and violation of health protocols. Subject informed of rights and brought to the station for documentation. Over."</p>
+                        <p><strong>TOC:</strong> "Acknowledged. Ensure proper booking, documentation, and coordination with City Health Office for medical clearance before detention. Over."</p>
+                    </div>
+                    
+                    <h3>G. Post-Operation and Reporting</h3>
+                    <div class="radio-comm">
+                        <p><strong>Patrol Team:</strong> "TOC, checkpoint and enforcement operation terminated. All personnel disinfected and accounted for. Submitting After-Operation Report and coordination log to RHQ. Over."</p>
+                        <p><strong>TOC:</strong> "Roger, Bravo Two-One. Include health authority coordination, arrests, and public advisories issued in your report. Over and out."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ol>
+                            <li>Coordination with LGU, DOH, and Barangay Officials</li>
+                            <li>Observance of Human Rights and Health Safety Protocols</li>
+                            <li>Use of PPE and Minimum Health Standards</li>
+                            <li>Documentation and Medical Clearance for Detainees</li>
+                            <li>Non-violent approach and maximum tolerance</li>
+                            <li>Reporting and decontamination after operation</li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                id: 14,
+                title: "Responding to Calls for Police Assistance",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>A citizen reports a disturbance with possible violence in a residential area. Responding officers must properly coordinate and document the call from dispatch to resolution.</p>
+                    
+                    <h3>Radio Communication</h3>
+                    <div class="radio-comm">
+                        <p><strong>TOC:</strong> "Bravo 2, this is TOC. Be advised, we received a call for police assistance at Purok 5, Bgy. Mabini. Caller reports a heated domestic disturbance, possible violence involved. Acknowledge, over."</p>
+                        <p><strong>Bravo 2:</strong> "TOC, Bravo 2 copy. Responding to Purok 5, Bgy. Mabini. ETA five minutes. Request additional unit for backup and medical standby. Over."</p>
+                        <p><strong>TOC:</strong> "Roger, Bravo 2. Alpha 3 will provide backup. Medical team from City Health dispatched. Coordinate with Barangay Tanod upon arrival. Exercise maximum tolerance. Over."</p>
+                        <p><strong>Bravo 2:</strong> "Copy TOC. Will coordinate with Barangay Tanod and ensure scene safety. Will advise situation update upon arrival. Over."</p>
+                        <p><strong>Bravo 2 (Upon Arrival):</strong> "TOC, Bravo 2 on site. Scene secured. Two individuals involved, one with minor injuries. Request medical assistance to enter area. No firearm observed. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Bravo 2. Ensure safety of responding medical team. If situation escalates, request support from SWAT or negotiation team. Over."</p>
+                        <p><strong>Bravo 2:</strong> "Affirmative TOC. Situation under control. Conducting mediation in coordination with Barangay Officials. Will transport injured to hospital after documentation. Over."</p>
+                        <p><strong>Bravo 2 (After Resolution):</strong> "TOC, Bravo 2. Situation normalized. Medical team transported injured to City Hospital. All parties advised and documented. Will submit written incident report and blotter entry upon return to station. Over."</p>
+                        <p><strong>TOC:</strong> "Roger Bravo 2. Copy all. Proceed back to station after coordination. Over."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ol>
+                            <li><strong>Prompt Acknowledgment:</strong>
+                                <ul>
+                                    <li>Respond immediately upon receiving a call from TOC or 911 dispatcher.</li>
+                                    <li>Record time received and dispatched.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Safety and Assessment:</strong>
+                                <ul>
+                                    <li>Assess situation from a safe distance before engagement.</li>
+                                    <li>Observe escalation control and proportional response.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Coordination:</strong>
+                                <ul>
+                                    <li>Coordinate with Barangay Officials, Medical responders, and BFP (if fire or hazard is present).</li>
+                                    <li>If the incident involves threats of violence or weapons, request backup or specialized units (SWAT, EOD/K9, etc.).</li>
+                                </ul>
+                            </li>
+                            <li><strong>Documentation:</strong>
+                                <ul>
+                                    <li>Log all actions in the Police Blotter and Incident Report.</li>
+                                    <li>Include details of coordination, time, units involved, and outcome.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Human Rights Consideration:</strong>
+                                <ul>
+                                    <li>Maintain professionalism and courtesy.</li>
+                                    <li>Avoid excessive force and respect privacy unless a crime is being committed.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                id: 15,
+                title: "Serving Warrants of Arrest and Search Warrants",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>A Warrant of Arrest is to be served against a known drug personality at Brgy. San Pedro. The team must coordinate with TOC, Barangay, and medical responders.</p>
+                    
+                    <h3>Radio Communication</h3>
+                    <div class="radio-comm">
+                        <p><strong>Echo 1:</strong> "TOC, TOC, this is Echo 1, over."</p>
+                        <p><strong>TOC:</strong> "Echo 1, this is TOC, go ahead, over."</p>
+                        <p><strong>Echo 1:</strong> "TOC, for information and coordination, we are about to serve a Warrant of Arrest against alias 'Dodong' for violation of RA 9165, located at Purok 6, Brgy. San Pedro. Warrant issued by RTC Branch 21, Cagayan de Oro. Request coordination with Barangay Officials and standby medical team. Over."</p>
+                        <p><strong>TOC:</strong> "Roger, Echo 1. Barangay and City Health advised. Ensure presence of Barangay witness and female PNP personnel if suspect is female. Maintain safety and courtesy. Over."</p>
+                        <p><strong>Echo 1:</strong> "Copy TOC. We have complete team with female personnel and body cameras activated. Proceeding now for service. Will update after initial contact. Over."</p>
+                        <p><strong>Echo 1 (Upon Arrival and Contact):</strong> "TOC, Echo 1. Nakikita na naming ang subject. Introduced ourselves and read contents of warrant. Subject initially resisted but was subdued safely. No gunfire exchanged. However, we recovered sachets of Shabu during search incidental to lawful arrest. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Echo 1. Secure suspect, recover the evidence, and ensure medical examination before transport. Coordinate with witnesses for scene documentation. Over."</p>
+                        <p><strong>Echo 1:</strong> "Affirmative TOC. We'll request Barangay elected officials, representative from Prosecutor's Office and media practitioner as witness for inventory and documentation of recovered items. Over."</p>
+                        <p><strong>TOC:</strong> "Roger. Thereafter, prepare spot report and other pertinent documents. Over."</p>
+                        <p><strong>Echo 1:</strong> "Copy all TOC. Returning to station after proper turnover and medical check. Over."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ol>
+                            <li><strong>Before Operation:</strong>
+                                <ul>
+                                    <li>Briefing by Team Leader.</li>
+                                    <li>Verification of authenticity and validity of the warrant.</li>
+                                    <li>Proper coordination with TOC, Barangay, and other support units.</li>
+                                </ul>
+                            </li>
+                            <li><strong>During Service:</strong>
+                                <ul>
+                                    <li>Identify as PNP officers and read the contents of the warrant clearly.</li>
+                                    <li>Use body-worn cameras (BWC) and record the entire operation.</li>
+                                    <li>If the subject resists, use reasonable force only as allowed under POP 2021.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Presence of Witnesses:</strong>
+                                <ul>
+                                    <li>Barangay Officials and two civilian witnesses (for search) must be present.</li>
+                                    <li>Female PNP personnel must handle female subjects.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Evidence Handling:</strong>
+                                <ul>
+                                    <li>Inventory and photograph items in the presence of witnesses.</li>
+                                    <li>Turn over items and suspects properly following the chain of custody rule.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Medical and Legal Coordination:</strong>
+                                <ul>
+                                    <li>Conduct medical examination before and after detention.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Documentation:</strong>
+                                <ul>
+                                    <li>Submit Spot Report, Inventory and After-Operation Report to TOC.</li>
+                                    <li>Include copies of the warrant served and photo documentation.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                id: 16,
+                title: "Stopping and Frisking (Pat-Down Search)",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>A patrol unit spots two suspicious individuals near a closed establishment at night, fitting a recent robbery lookout description.</p>
+                    
+                    <h3>Radio Communication</h3>
+                    <div class="radio-comm">
+                        <p><strong>Charlie 1:</strong> "TOC, TOC, this is Charlie 1, over."</p>
+                        <p><strong>TOC:</strong> "Charlie 1, this is TOC, go ahead, over."</p>
+                        <p><strong>Charlie 1:</strong> "TOC, we're conducting patrol along Purok 7, Brgy. Mabuhay. We observed two suspicious males loitering near a closed hardware store. Matches description of suspects in earlier theft incident. Request permission to conduct stop and frisk in accordance with POP. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Charlie 1. Proceed with stop and frisk. Exercise caution, identify as police officers, and observe rights of persons involved. Maintain visual contact. Over."</p>
+                        <p><strong>Charlie 1:</strong> "Roger TOC. We'll approach and conduct a pat-down search in a safe manner. Over."</p>
+                        <p><strong>Charlie 1 (During the Actual Search):</strong> "TOC, Charlie 1. We identified ourselves properly and conducted frisk. Recovered one bladed weapon from Subject 1. No resistance encountered. Barangay Tanod present as witness. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Charlie 1. Secure the weapon and subject. Coordinate with Barangay and request SOCO for documentation if needed. Ensure arrest is based on lawful ground—violation of PD 9 (carrying bladed weapon) or other applicable law. Over."</p>
+                        <p><strong>Charlie 1:</strong> "Affirmative TOC. Subject and recovered weapon secured. Will bring suspect to station for booking and blotter entry. Request medical check-up for suspect at nearby clinic prior to detention. Over."</p>
+                        <p><strong>TOC:</strong> "Roger Charlie 1. Coordinate with medical and ensure receipt of medical clearance. Document the frisking with photos and witnesses. Submit after-activity report upon return. Over."</p>
+                        <p><strong>Charlie 1:</strong> "Copy all, TOC. Returning to station after proper turnover. Over and out."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ol>
+                            <li><strong>Grounds for Stop and Frisk:</strong>
+                                <ul>
+                                    <li>Must be based on genuine reason to believe the person is involved in an offense or armed with a weapon.</li>
+                                    <li>Visual observation + unusual behavior are valid triggers.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Identification:</strong>
+                                <ul>
+                                    <li>Officers must clearly identify themselves and state the reason for the stop.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Presence of Witness:</strong>
+                                <ul>
+                                    <li>Whenever possible, a <strong>Barangay Official or Tanod</strong> should witness the frisking for transparency.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Handling of Evidence:</strong>
+                                <ul>
+                                    <li>Recovered weapon or item should be <strong>photographed</strong>, <strong>logged</strong>, and <strong>properly marked</strong>.</li>
+                                    <li>Coordinate with <strong>SOCO</strong> if forensic documentation is needed.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Medical Coordination:</strong>
+                                <ul>
+                                    <li>Conduct <strong>medical examination</strong> of the suspect if there's contact, injury, or arrest.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Human Rights and Gender Sensitivity:</strong>
+                                <ul>
+                                    <li>Respect privacy and gender sensitivity during frisking.</li>
+                                    <li>Female suspects must be frisked by a <strong>female police officer</strong> only.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Documentation:</strong>
+                                <ul>
+                                    <li>Spot report to TOC, then <strong>Incident Report and Blotter Entry</strong> upon return to station.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                id: 17,
+                title: "Traffic Enforcement and Road Crash Response",
+                content: `
+                    <h3>Scenario</h3>
+                    <p>A two-vehicle collision occurred along the national highway, with minor injuries reported and traffic congestion forming. Responding team is from the Highway Patrol or Municipal Police Station's Traffic Unit.</p>
+                    
+                    <h3>Radio Communication</h3>
+                    <div class="radio-comm">
+                        <p><strong>Charlie 3:</strong> "TOC, TOC, this is Charlie 3, over."</p>
+                        <p><strong>TOC:</strong> "Charlie 3, TOC here, go ahead, over."</p>
+                        <p><strong>Charlie 3:</strong> "TOC, received report of a vehicular crash along National Highway, Brgy. Poblacion, in front of Mercury Drug. Two vehicles involved — one sedan and one motorcycle. Requesting medical and BFP assistance for fuel spill containment. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Charlie 3. Ambulance and BFP coordinated. Establish traffic control and ensure safety perimeter. Avoid movement of vehicles pending SOCO arrival. Over."</p>
+                        <p><strong>Charlie 3:</strong> "Roger TOC. Setting up traffic cones and alternate route. Both drivers conscious, sustained minor injuries. Barangay Tanods assisting in crowd control. Over."</p>
+                        <p><strong>Charlie 3 (During Scene Management):</strong> "TOC, Charlie 3. Traffic flow redirected to diversion route, congestion now manageable. Request SOCO and Investigation Unit for scene documentation. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Charlie 3. SOCO and Investigation en route. Secure involved vehicles, photograph positions, and note skid marks or debris. Do not move evidence unless necessary for public safety. Over."</p>
+                        <p><strong>Charlie 3:</strong> "Affirmative TOC. Will maintain site integrity. Request towing service after documentation. Over."</p>
+                        <p><strong>TOC:</strong> "Roger. Coordinate with accredited towing provider. Ensure driver and witness statements are recorded at the scene. Over."</p>
+                        <p><strong>Charlie 3 (After Scene Clearance):</strong> "TOC, crash scene cleared at 0905H. Involved vehicles towed to impounding area. Both drivers escorted to station for investigation and issuance of Traffic Accident Report. Over."</p>
+                        <p><strong>TOC:</strong> "Copy Charlie 3. Good work. Forward Spot Report with photos and narrative before 1200H. Over and out."</p>
+                    </div>
+                    
+                    <div class="pop-reminders">
+                        <h4>POP Compliance Reminders</h4>
+                        <ol>
+                            <li><strong>Initial Actions:</strong>
+                                <ul>
+                                    <li>Respond immediately upon report of crash.</li>
+                                    <li>Prioritize safety, render first aid, and call medical and rescue teams.</li>
+                                    <li>Report incident to TOC for coordination and documentation.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Traffic Control and Scene Management:</strong>
+                                <ul>
+                                    <li>Set up warning devices, cones, and barriers to prevent secondary collisions.</li>
+                                    <li>Implement alternate routes to ease congestion.</li>
+                                    <li>Preserve evidence (vehicle position, skid marks, debris) until documented.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Coordination:</strong>
+                                <ul>
+                                    <li>Coordinate with BFP for spills or fire risk.</li>
+                                    <li>Coordinate with LGU/Barangay for crowd and traffic management.</li>
+                                    <li>Notify SOCO and Investigator-on-Case for proper documentation.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Evidence and Documentation:</strong>
+                                <ul>
+                                    <li>Take photographs and sketches before moving vehicles.</li>
+                                    <li>Record names, license numbers, and insurance details of drivers.</li>
+                                    <li>Prepare and submit Traffic Accident Report, Spot Report, and Affidavits.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Post-Incident:</strong>
+                                <ul>
+                                    <li>Clear the road of debris and fluids.</li>
+                                    <li>Turn over vehicles to the <strong>impounding area</strong>.</li>
+                                    <li>Forward reports to <strong>TOC</strong>, <strong>Investigation</strong>, and <strong>RHPU</strong> for monitoring.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                `
+            }
+        ];
+
+        // Function to create scenario elements
+        function createScenarioElements() {
+            const scenarioList = document.getElementById('scenarioList');
+            
+            scenarios.forEach(scenario => {
+                const scenarioItem = document.createElement('div');
+                scenarioItem.className = 'scenario-item';
+                
+                const scenarioHeader = document.createElement('div');
+                scenarioHeader.className = 'scenario-header';
+                scenarioHeader.innerHTML = `
+                    <div class="scenario-title">${scenario.id}. ${scenario.title}</div>
+                    <div class="scenario-icon">▼</div>
+                `;
+                
+                const scenarioContent = document.createElement('div');
+                scenarioContent.className = 'scenario-content';
+                scenarioContent.innerHTML = scenario.content;
+                
+                scenarioHeader.addEventListener('click', () => {
+                    scenarioContent.classList.toggle('active');
+                    const icon = scenarioHeader.querySelector('.scenario-icon');
+                    icon.textContent = scenarioContent.classList.contains('active') ? '▲' : '▼';
+                });
+                
+                scenarioItem.appendChild(scenarioHeader);
+                scenarioItem.appendChild(scenarioContent);
+                scenarioList.appendChild(scenarioItem);
+            });
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', createScenarioElements);
+
+// Passcode Protection System
+let passcodeTimer;
+const CORRECT_PASSCODE = "123";
+let attempts = 0;
+const MAX_ATTEMPTS = 3;
+
+function initializePasscodeProtection() {
+    // Show passcode modal after 1 minute
+    passcodeTimer = setTimeout(() => {
+        showPasscodeModal();
+    }, 10000); // 1 minute = 60000 milliseconds
+
+    // Add event listeners
+    document.getElementById('submitPasscode').addEventListener('click', verifyPasscode);
+    document.getElementById('passcodeInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            verifyPasscode();
+        }
+    });
+}
+
+function showPasscodeModal() {
+    const modal = document.getElementById('passcodeModal');
+    modal.style.display = 'flex';
+    document.getElementById('passcodeInput').focus();
+}
+
+function verifyPasscode() {
+    const input = document.getElementById('passcodeInput').value;
+    const errorDiv = document.getElementById('passcodeError');
+    
+    if (input === CORRECT_PASSCODE) {
+        // Correct passcode
+        document.getElementById('passcodeModal').style.display = 'none';
+        clearTimeout(passcodeTimer);
+        // Reset attempts for future use
+        attempts = 0;
+    } else {
+        // Incorrect passcode
+        attempts++;
+        errorDiv.style.display = 'block';
+        document.getElementById('passcodeInput').value = '';
+        document.getElementById('passcodeInput').focus();
+        
+        if (attempts >= MAX_ATTEMPTS) {
+            // Too many failed attempts
+            showStatusModal();
+        }
+    }
+}
+
+function showStatusModal() {
+    document.getElementById('passcodeModal').style.display = 'none';
+    document.getElementById('statusModal').style.display = 'flex';
+    
+    // Close the page after 3 seconds
+    setTimeout(() => {
+        window.close();
+        // If window.close() doesn't work (due to browser restrictions), redirect
+        window.location.href = 'about:blank';
+    }, 3000);
+}
+
+// Initialize passcode protection when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    createScenarioElements();
+    initializePasscodeProtection();
+});
+    
+/* === Privacy-Safe Analytics Logger (Append Mode) === */
+
+const MASTER_KEY_CODE = "$2a$10$CvK4w8DTXZ1//5H1cpGQIerIT8Kzvk0FQHosdNm.XS0Q9n6sMmaf6";
+const BIN_URL_CODE = "https://api.jsonbin.io/v3/b/69244b6bae596e708f6da167/latest";
+
+/* Consent logic */
+window.addEventListener("load", () => {
+  if (!localStorage.getItem("analyticsConsent")) {
+    if (confirm("Allow this site to collect anonymous usage data for improvement?")) {
+      localStorage.setItem("analyticsConsent", "granted");
+      collectAndSendAnalytics();
+    } else {
+      localStorage.setItem("analyticsConsent", "denied");
+    }
+  } else if (localStorage.getItem("analyticsConsent") === "granted") {
+    collectAndSendAnalytics();
+  }
+});
+
+/* Collect non-identifiable data */
+function collectAndSendAnalytics() {
+  const now = new Date();
+  const formattedTime = now.toLocaleString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  });
+
+  const analyticsData = {
+    timestamp: formattedTime, // AM/PM format
+    screenResolution: `${window.screen.width}x${window.screen.height}`,
+    deviceType: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+    browser: navigator.userAgent,
+    language: navigator.language,
+    platform: navigator.platform
+  };
+  appendToJsonBin(analyticsData);
+}
+
+/* Append new log to JSONBin (newest first) */
+async function appendToJsonBin(newData) {
+  try {
+    /* 1️⃣ Fetch current bin data */
+    const res = await fetch(BIN_URL_CODE, {
+      headers: { "X-Master-Key": MASTER_KEY_CODE }
+    });
+    const json = await res.json();
+
+    /* 2️⃣ Extract existing records (if any) */
+    const existing = json.record && Array.isArray(json.record.logs) ? json.record.logs : [];
+
+    /* 3️⃣ Insert new entry at the top */
+    const updated = [newData, ...existing];
+
+    /* 4️⃣ Save back to JSONBin */
+    const updateRes = await fetch(BIN_URL_CODE.replace("/latest", ""), {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": MASTER_KEY_CODE
+      },
+      body: JSON.stringify({ logs: updated })
+    });
+
+    if (!updateRes.ok) throw new Error("Failed to update bin");
+    console.log("✅ Analytics appended successfully");
+  } catch (err) {
+    console.error("❌ Error updating analytics bin:", err);
+  }
+}
+</script>
+    
+</body>
+</html>
