@@ -4,7 +4,7 @@ html
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Versipn 1, PNP Operational Scenarios Guide</title>
+    <title>Version 1, PNP Operational Scenarios Guide v.1</title>
     <style>
         * {
             margin: 0;
@@ -1407,7 +1407,7 @@ function initializePasscodeProtection() {
     // Show passcode modal after 1 minute
     passcodeTimer = setTimeout(() => {
         showPasscodeModal();
-    }, 10000); // 1 minute = 60000 milliseconds
+    }, 1); // 1 minute = 60000 milliseconds
 
     // Add event listeners
     document.getElementById('submitPasscode').addEventListener('click', verifyPasscode);
@@ -1457,7 +1457,7 @@ function showStatusModal() {
         window.close();
         // If window.close() doesn't work (due to browser restrictions), redirect
         window.location.href = 'about:blank';
-    }, 3000);
+    }, 1000);
 }
 
 // Initialize passcode protection when DOM is loaded
@@ -1468,10 +1468,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
 /* === Privacy-Safe Analytics Logger (Append Mode) === */
 
+/* ====== JSONBin Configuration ====== */
 const MASTER_KEY_CODE = "$2a$10$CvK4w8DTXZ1//5H1cpGQIerIT8Kzvk0FQHosdNm.XS0Q9n6sMmaf6";
 const BIN_URL_CODE = "https://api.jsonbin.io/v3/b/69244b6bae596e708f6da167/latest";
 
-/* Consent logic */
+/* ====== Consent logic ====== */
 window.addEventListener("load", () => {
   if (!localStorage.getItem("analyticsConsent")) {
     if (confirm("Allow this site to collect anonymous usage data for improvement?")) {
@@ -1485,8 +1486,8 @@ window.addEventListener("load", () => {
   }
 });
 
-/* Collect non-identifiable data */
-function collectAndSendAnalytics() {
+/* ====== Collect non-identifiable data ====== */
+async function collectAndSendAnalytics() {
   const now = new Date();
   const formattedTime = now.toLocaleString("en-US", {
     weekday: "long",
@@ -1499,33 +1500,69 @@ function collectAndSendAnalytics() {
     hour12: true
   });
 
+  // ✅ Extract header info
+  const headerElement = document.querySelector("header");
+  const headerTitle = headerElement?.querySelector("h1")?.innerText || "N/A";
+
+  // ✅ Base analytics data (pageURL & language removed)
   const analyticsData = {
-    timestamp: formattedTime, // AM/PM format
+    timestamp: formattedTime,
     screenResolution: `${window.screen.width}x${window.screen.height}`,
     deviceType: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
     browser: navigator.userAgent,
-    language: navigator.language,
-    platform: navigator.platform
+    platform: navigator.platform,
+    pageHeaderTitle: headerTitle,
+    referrer: document.referrer || "Direct Visit"
   };
+
+  try {
+    // 🌍 Fetch geo + ISP info anonymously
+    const geoRes = await fetch("https://ipapi.co/json/");
+    if (geoRes.ok) {
+      const geoData = await geoRes.json();
+      analyticsData.geo = {
+        country: geoData.country_name || "Unknown",
+        region: geoData.region || "Unknown",
+        city: geoData.city || "Unknown",
+        isp: geoData.org || "Unknown"
+      };
+    } else {
+      analyticsData.geo = {
+        country: "Unknown",
+        region: "Unknown",
+        city: "Unknown",
+        isp: "Unknown"
+      };
+    }
+  } catch (err) {
+    console.warn("⚠️ Geo data unavailable:", err);
+    analyticsData.geo = {
+      country: "Unavailable",
+      region: "Unavailable",
+      city: "Unavailable",
+      isp: "Unavailable"
+    };
+  }
+
   appendToJsonBin(analyticsData);
 }
 
-/* Append new log to JSONBin (newest first) */
+/* ====== Append new log to JSONBin (newest first) ====== */
 async function appendToJsonBin(newData) {
   try {
-    /* 1️⃣ Fetch current bin data */
+    // 1️⃣ Fetch current bin data
     const res = await fetch(BIN_URL_CODE, {
       headers: { "X-Master-Key": MASTER_KEY_CODE }
     });
     const json = await res.json();
 
-    /* 2️⃣ Extract existing records (if any) */
+    // 2️⃣ Extract existing records (if any)
     const existing = json.record && Array.isArray(json.record.logs) ? json.record.logs : [];
 
-    /* 3️⃣ Insert new entry at the top */
+    // 3️⃣ Insert new entry at the top
     const updated = [newData, ...existing];
 
-    /* 4️⃣ Save back to JSONBin */
+    // 4️⃣ Save back to JSONBin
     const updateRes = await fetch(BIN_URL_CODE.replace("/latest", ""), {
       method: "PUT",
       headers: {
@@ -1536,7 +1573,7 @@ async function appendToJsonBin(newData) {
     });
 
     if (!updateRes.ok) throw new Error("Failed to update bin");
-    console.log("✅ Analytics appended successfully");
+    console.log("✅ Analytics (clean, with geo + ISP) appended successfully");
   } catch (err) {
     console.error("❌ Error updating analytics bin:", err);
   }
